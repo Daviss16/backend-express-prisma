@@ -1,0 +1,35 @@
+# **Project Overview**
+
+This project is initially based on Dr. Waka's video (_[insert video link]_), where I followed the original implementation step by step. After completing the initial version, I conducted further research on the **MVC (Model-View-Controller) architecture** and explored best practices to improve code **efficiency, readability, and maintainability**.
+
+As a result, I made several improvements and optimizations, refining the project beyond its initial implementation. The changes I made are available in the latest commits.
+
+---
+
+## 🔹 **Improvements and Changes**
+
+- **Better folder structure and naming conventions**  
+  I reorganized the folder structure to improve maintainability and readability. I avoided using technology-specific names like "prisma" or "express" in filenames and shortened some file names. For example, instead of **"product.service.ts"**, I renamed it to just **"product"**, since it is already inside the `product` folder.
+
+- **Interfaces placement and implementation files**  
+  Instead of storing interfaces in separate files, I placed them alongside the files where they are used. Additionally, I removed folders named **"implementation"**, keeping only the actual implementation file inside the appropriate module (e.g., the `service` layer).
+
+- **Refactored routing and method calls**  
+  Previously, the `main` file handled method calls. Now, I moved those calls to the **router layer**, so `main` now only calls a single method. The `main` file is now responsible for **instantiating classes and creating objects** before they are persisted in the database.
+
+- **Dependency injection for controllers**  
+  Instead of instantiating the service inside the controller every time a method is called, I implemented **dependency injection**. Now, the controller **receives** the service as a dependency, making the architecture cleaner and more scalable.
+
+- **Refactored build methods**  
+  The `build` methods in each implementation now receive **specific properties (props)** instead of passing the entire object.
+
+- **Moved DTOs to the controller layer**  
+  Previously, DTOs were inside the `service` layer. Now, they have their own dedicated files in the `controller` layer. The controller is now responsible for **creating and handling DTOs** before sending data to the database.
+
+- **Refactored response handling in controllers**  
+  - The `Response` function **no longer uses `.send()`**, as it was redundant with `.json()`.  
+  - The controllers now return **DTOs directly inside `json(data)`**, ensuring a structured response format.  
+  - Object instantiations were removed from each method, as instances are now passed directly to the controller at the `build` stage.
+
+- **Using `.bind()` for method calls**  
+  Since instances are no longer created inside the controller, I had to use **`.bind(parameter)`** to ensure the correct instance is referenced when calling a method. This prevents context issues with the `this` keyword.

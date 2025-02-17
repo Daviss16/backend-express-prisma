@@ -1,12 +1,16 @@
 import { PrismaClient } from "@prisma/client";
-import { Product } from "../../../entities/products";
-import { ProductRepository } from "../products.repository";
+import { Product } from "../../../core/entities/products";
+import { ProductRepository } from "../../../core/services/products/products";
+
+export type PrismaProps = {
+    prisma: PrismaClient;
+}
 
 export class ProductRepositoryPrisma implements ProductRepository {
-    private constructor(readonly prisma: PrismaClient) {}
+    private constructor(readonly props: PrismaProps) {}
 
-    public static build(prisma: PrismaClient){
-        return new ProductRepositoryPrisma(prisma);
+    public static build(props: PrismaProps){
+        return new ProductRepositoryPrisma(props);
     }
     
     public async save(product: Product): Promise<void> {
@@ -17,13 +21,13 @@ export class ProductRepositoryPrisma implements ProductRepository {
             quantity: product.quantity
         };
 
-        await this.prisma.product.create({
+        await this.props.prisma.product.create({
             data
         });
     }
 
     public async list(): Promise<Product[]> {
-        const aProducts = await this.prisma.product.findMany();
+        const aProducts = await this.props.prisma.product.findMany();
         
         const products: Product[] = aProducts.map((p) => {
             const {id, name, price, quantity} = p;
@@ -41,7 +45,7 @@ export class ProductRepositoryPrisma implements ProductRepository {
             quantity: product.quantity
         };
 
-        await this.prisma.product.update({
+        await this.props.prisma.product.update({
             where: {
                 id: product.id,
             },
@@ -51,7 +55,7 @@ export class ProductRepositoryPrisma implements ProductRepository {
 
 
     public async find(id: string): Promise<Product | null> {
-        const aProducts = await this.prisma.product.findUnique({
+        const aProducts = await this.props.prisma.product.findUnique({
             where: {id},
         });
 

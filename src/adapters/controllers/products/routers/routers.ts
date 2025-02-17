@@ -1,13 +1,17 @@
-import { Api } from "../api";
 import express, {Express, Request, Response} from "express";
+import { ProductController } from "../products";
 
-export class ApiExpress implements Api {
+export interface Api {
+    start(port: number): void;
+}
+
+export class Router implements Api {
     private constructor(readonly app: Express) {}
     
     public static build() {
         const app = express();
         app.use(express.json());
-        return new ApiExpress(app);
+        return new Router(app);
     }
 
     public addGetRoute(path: string, handler:(req:Request, res:Response) => void):void {
@@ -16,6 +20,13 @@ export class ApiExpress implements Api {
 
     public addPostRoute(path: string, handler:(req:Request, res:Response) => void):void {
         this.app.post(path, handler);
+    }
+
+    public register(controller: ProductController){
+        this.addGetRoute("/products",controller.list.bind(controller));
+        this.addPostRoute("/products/create",controller.create.bind(controller));
+        this.addPostRoute("/products/:id/buy",controller.buy.bind(controller));
+        this.addPostRoute("/products/:id/sell",controller.sell.bind(controller));
     }
 
     public start(port: number): void {

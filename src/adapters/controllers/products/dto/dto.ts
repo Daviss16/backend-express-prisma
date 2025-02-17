@@ -1,5 +1,7 @@
 export type CreateOutputDTO = {
     id: string,
+    name: string,
+    price: number,
     balance: number
 };
 
@@ -20,12 +22,4 @@ export type ListOutputDTO = {
         price: number,
         balance: number
     }[];
-};
-
-
-export interface ProductService {
-    create(name: string, price: number): Promise<CreateOutputDTO>;
-    sell(id: string, amount: number): Promise<SellOutputDTO>;
-    buy(id: string, amount: number): Promise<BuyOutputDTO>;
-    list(): Promise<ListOutputDTO>;
 };
