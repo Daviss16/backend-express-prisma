@@ -1,6 +1,6 @@
 # **Project Overview**
 
-This project is initially based on Dr. Waka's video (_[insert video link]_), where I followed the original implementation step by step. After completing the initial version, I conducted further research on the **MVC (Model-View-Controller) architecture** and explored best practices to improve code **efficiency, readability, and maintainability**.
+This project is initially based on Dr. Waka's video (https://www.youtube.com/watch?v=RY0BQV803UU&list=WL&index=6&t=2543s), where I followed the original implementation step by step. After completing the initial version, I conducted further research on the **MVC (Model-View-Controller) architecture** and explored best practices to improve code **efficiency, readability, and maintainability**.
 
 As a result, I made several improvements and optimizations, refining the project beyond its initial implementation. The changes I made are available in the latest commits.
 
